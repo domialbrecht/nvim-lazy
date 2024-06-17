@@ -1,5 +1,31 @@
 return {
   {
+    "ibhagwan/fzf-lua",
+    keys = {
+      { "<c-s>", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    },
+  },
+  {
+    "ThePrimeagen/harpoon",
+    keys = {
+      {
+        "<leader>a",
+        function()
+          require("harpoon"):list():add()
+        end,
+        desc = "Harpoon File",
+      },
+      {
+        "<C-e>",
+        function()
+          local harpoon = require("harpoon")
+          harpoon.ui:toggle_quick_menu(harpoon:list())
+        end,
+        desc = "Harpoon Quick Menu",
+      },
+    },
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
       {
