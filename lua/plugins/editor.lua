@@ -8,6 +8,7 @@ return {
   {
     "ThePrimeagen/harpoon",
     keys = {
+      { "<leader>h", false },
       {
         "<leader>a",
         function()
