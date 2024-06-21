@@ -1,4 +1,5 @@
 return {
+  { "tpope/vim-abolish" },
   {
     "ibhagwan/fzf-lua",
     keys = {
