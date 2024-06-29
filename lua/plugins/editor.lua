@@ -4,6 +4,7 @@ return {
     "ibhagwan/fzf-lua",
     keys = {
       { "<c-s>", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>sf", LazyVim.pick("live_grep_glob"), desc = "Grep Glob (Root Dir)" },
     },
   },
   {
