@@ -73,6 +73,21 @@ return {
       }
       local events = require("neo-tree.events")
       opts.event_handlers = opts.event_handlers or {}
+
+      opts.commands = {
+        node_find = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          LazyVim.pick.open("live_grep", { cwd = path })
+        end,
+      }
+
+      opts.filesystem.window = {
+        mappings = {
+          ["g"] = "node_find",
+        },
+      }
+
       vim.list_extend(opts.event_handlers, {
         {
           event = events.FILE_OPENED,
