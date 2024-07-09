@@ -84,7 +84,7 @@ return {
 
       opts.filesystem.window = {
         mappings = {
-          ["g"] = "node_find",
+          ["h"] = "node_find",
         },
       }
 
