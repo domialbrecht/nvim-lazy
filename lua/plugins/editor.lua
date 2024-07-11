@@ -8,6 +8,12 @@ return {
     },
   },
   {
+    "stevearc/overseer.nvim",
+    opts = {
+      templates = { "builtin", "custom.init" },
+    },
+  },
+  {
     "ThePrimeagen/harpoon",
     keys = {
       { "<leader>h", false },
