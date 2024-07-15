@@ -1,6 +1,16 @@
 return {
   { "tpope/vim-abolish" },
   {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+    config = true,
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
+      { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "DiffView current File" },
+    },
+  },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  {
     "ibhagwan/fzf-lua",
     keys = {
       { "<c-s>", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
