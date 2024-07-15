@@ -9,7 +9,6 @@ return {
       { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "DiffView current File" },
     },
   },
-  { "akinsho/git-conflict.nvim", version = "*", config = true },
   {
     "ibhagwan/fzf-lua",
     keys = {
