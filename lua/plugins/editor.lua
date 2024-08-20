@@ -76,7 +76,7 @@ return {
       },
     },
     opts = function(_, opts)
-      opts.window.position = "current"
+      opts.window.position = "float"
       opts.default_component_configs.file_size = {
         enabled = false,
       }
@@ -86,8 +86,6 @@ return {
       opts.default_component_configs.last_modified = {
         enabled = false,
       }
-      local events = require("neo-tree.events")
-      opts.event_handlers = opts.event_handlers or {}
 
       opts.commands = {
         node_find = function(state)
@@ -103,6 +101,8 @@ return {
         },
       }
 
+      local events = require("neo-tree.events")
+      opts.event_handlers = opts.event_handlers or {}
       vim.list_extend(opts.event_handlers, {
         {
           event = events.FILE_OPENED,
