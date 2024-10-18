@@ -15,6 +15,7 @@ return {
       ---@type lspconfig.options
       servers = {
         twiggy_language_server = {},
+        denols = {},
       },
     },
   },
