@@ -17,12 +17,6 @@ end
 return {
   { "fei6409/log-highlight.nvim", event = "BufRead *.log", opts = {} },
   {
-    "zbirenbaum/copilot.lua",
-    opts = {
-      filetypes = { ["*"] = true },
-    },
-  },
-  {
     "smjonas/inc-rename.nvim",
     cmd = "IncRename",
     config = true,
