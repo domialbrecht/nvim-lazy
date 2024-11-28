@@ -22,7 +22,15 @@ return {
     config = true,
   },
   {
+    "zbirenbaum/copilot.lua",
+    optional = true,
+    opts = {
+      filetypes = { ["*"] = true },
+    },
+  },
+  {
     "CopilotC-Nvim/CopilotChat.nvim",
+    opts = { show_help = false },
     keys = function()
       return {
         { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },

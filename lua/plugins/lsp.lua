@@ -14,7 +14,15 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
-        twiggy_language_server = {},
+        twiggy_language_server = {
+          settings = {
+            twiggy = {
+              framework = "symfony",
+              phpExecutable = "php-legacy",
+              symfonyConsolePath = "bin/console",
+            },
+          },
+        },
         denols = {},
       },
     },
