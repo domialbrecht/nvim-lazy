@@ -1,50 +1,26 @@
 return {
-  -- {
-  --   "tokyonight.nvim",
-  --   opts = function()
-  --     return {
-  --       style = "moon",
-  --       transparent = true,
-  --       styles = {
-  --         sidebars = "transparent",
-  --         floats = "transparent",
-  --       },
-  --       sidebars = {
-  --         "qf",
-  --         "vista_kind",
-  --         -- "terminal",
-  --         "spectre_panel",
-  --         "startuptime",
-  --         "Outline",
-  --       },
-  --       on_highlights = function(hl, c)
-  --         hl.SnacksDashboardKey = { fg = c.yellow }
-  --       end,
-  --     }
-  --   end,
-  -- },
   {
-    "catppuccin/nvim",
-    lazy = true,
-    name = "catppuccin",
+    "tokyonight.nvim",
     opts = {
-      flavour = "mocha",
-      transparent_background = true,
-      styles = {
-        keywords = { "bold" },
-        functions = { "italic" },
-      },
-      custom_highlights = function(colors)
-        return {
-          SnacksDashboardKey = { fg = colors.mauve },
-        }
+      style = "night",
+      on_highlights = function(hl, c)
+        hl.SnacksDashboardKey = { fg = c.yellow }
+        hl.BlinkCmpMenuBorder = { fg = c.yellow, bg = c.yellow }
+        hl.BlinkCmpScrollBarThumb = { fg = c.yellow, bg = c.yellow }
       end,
     },
   },
   {
-    "LazyVim/LazyVim",
+    "saghen/blink.cmp",
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
     opts = {
-      colorscheme = "catppuccin",
+      completion = {
+        menu = {
+          border = "rounded",
+          winblend = 0,
+        },
+      },
     },
   },
   {
