@@ -2,10 +2,10 @@ return {
   {
     "tokyonight.nvim",
     opts = {
-      style = "night",
+      style = "moon",
       on_highlights = function(hl, c)
         hl.SnacksDashboardKey = { fg = c.yellow }
-        hl.BlinkCmpMenuBorder = { fg = c.yellow, bg = c.yellow }
+        hl.BlinkCmpMenuBorder = { fg = c.yellow }
         hl.BlinkCmpScrollBarThumb = { fg = c.yellow, bg = c.yellow }
       end,
     },
@@ -15,10 +15,9 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      completion = {
-        menu = {
+      windows = {
+        autocomplete = {
           border = "rounded",
-          winblend = 0,
         },
       },
     },
@@ -29,13 +28,6 @@ return {
       dashboard = {
         width = 70,
         sections = {
-          {
-            section = "terminal",
-            cmd = "greek",
-            padding = 1,
-            height = 17,
-            align = "center",
-          },
           { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
         },
