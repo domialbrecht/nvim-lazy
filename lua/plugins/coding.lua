@@ -69,4 +69,13 @@ return {
       }
     end,
   },
+  {
+    "folke/which-key.nvim",
+    optional = true,
+    opts = {
+      spec = {
+        { "<leader>\\", icon = "" },
+      },
+    },
+  },
 }

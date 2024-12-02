@@ -1,12 +1,17 @@
+---@diagnostic disable: missing-fields
 return {
   {
     "tokyonight.nvim",
+    ---@module 'tokyonight.nvim'
+    ---@type tokyonight.Config
     opts = {
       style = "moon",
-      on_highlights = function(hl, c)
-        hl.SnacksDashboardKey = { fg = c.yellow }
-        hl.BlinkCmpMenuBorder = { fg = c.yellow }
-        hl.BlinkCmpScrollBarThumb = { fg = c.yellow, bg = c.yellow }
+      ---@param highlights tokyonight.Highlights
+      on_highlights = function(highlights, colors)
+        highlights.SnacksDashboardKey = { fg = colors.yellow }
+        highlights.BlinkCmpMenuBorder = { fg = colors.yellow }
+        highlights.BlinkCmpScrollBarThumb = { fg = colors.yellow, bg = colors.yellow }
+        highlights.LspKindSnippet = { fg = colors.magenta }
       end,
     },
   },
@@ -15,9 +20,55 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      windows = {
-        autocomplete = {
+      completion = {
+        menu = {
           border = "rounded",
+          winblend = vim.o.pumblend,
+          draw = { treesitter = true },
+        },
+        documentation = {
+          window = {
+            border = "rounded",
+          },
+          auto_show = true,
+          auto_show_delay_ms = 200,
+        },
+        ghost_text = {
+          enabled = vim.g.ai_cmp,
+        },
+      },
+      appearance = {
+        kind_icons = {
+          Text = "󰉿",
+          Method = "󰊕",
+          Function = "󰊕",
+          Constructor = "󰒓",
+
+          Field = "󰜢",
+          Variable = "󰆦",
+          Property = "󰖷",
+
+          Class = "󱡠",
+          Interface = "󱡠",
+          Struct = "󱡠",
+          Module = "󰅩",
+
+          Unit = "󰪚",
+          Value = "󰦨",
+          Enum = "󰦨",
+          EnumMember = "󰦨",
+
+          Keyword = "󰻾",
+          Constant = "󰏿",
+
+          Snippet = "󰑕",
+          Color = "󰏘",
+          File = "󰈔",
+          Reference = "󰬲",
+          Folder = "󰉋",
+          Event = "󱐋",
+          Operator = "󰪚",
+          TypeParameter = "󰬛",
         },
       },
     },
