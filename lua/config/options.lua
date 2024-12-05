@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.opt.clipboard = ""
 vim.env.FZF_DEFAULT_OPTS = ""
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
