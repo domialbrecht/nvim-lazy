@@ -20,10 +20,6 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-
--- Map <Leader>\ to insert |> in insert mode
-vim.api.nvim_set_keymap("i", "<Leader>\\", "|> ", { noremap = true, silent = true, desc = "|>Elixir pipe shortcut" })
-
 -- Map <Leader>\ to insert |> in normal mode
 vim.api.nvim_set_keymap(
   "n",
