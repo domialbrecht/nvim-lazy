@@ -6,6 +6,11 @@ return {
     ---@type tokyonight.Config
     opts = {
       style = "moon",
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
       ---@param highlights tokyonight.Highlights
       on_highlights = function(highlights, colors)
         highlights.SnacksDashboardKey = { fg = colors.yellow }
