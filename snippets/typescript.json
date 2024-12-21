@@ -1,0 +1,20 @@
+{
+  "s-load": {
+    "prefix": "s-load",
+    "body": [
+      "export async function load(${1:event: RequestEvent}) {",
+      "return {}",
+      "}"
+    ],
+    "description": "Sveltekit load"
+  },
+  "s-l-load": {
+    "prefix": "s-l-load",
+    "body": [
+      "export const load: LayoutServerLoad = async (event: LayoutServerLoadEvent) => {",
+      "${1}",
+      "};"
+    ],
+    "description": "Sveltekit layout load load with params"
+  }
+}
