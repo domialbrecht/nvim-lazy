@@ -29,7 +29,6 @@ return {
         menu = {
           border = "rounded",
           winblend = vim.o.pumblend,
-          draw = { treesitter = true },
         },
         documentation = {
           window = {
@@ -38,8 +37,10 @@ return {
           auto_show = true,
           auto_show_delay_ms = 200,
         },
-        ghost_text = {
-          enabled = vim.g.ai_cmp,
+      },
+      signature = {
+        window = {
+          border = "rounded",
         },
       },
     },
@@ -63,6 +64,10 @@ return {
           { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
         },
+      },
+      indent = {
+        chunk = { enabled = true },
+        -- scope = { treesitter = { enabled = true } },
       },
     },
   },
