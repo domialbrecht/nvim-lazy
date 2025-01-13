@@ -34,8 +34,6 @@ return {
           window = {
             border = "rounded",
           },
-          auto_show = true,
-          auto_show_delay_ms = 200,
         },
         ghost_text = { enabled = false },
       },
@@ -47,7 +45,7 @@ return {
       sources = {
         providers = {
           copilot = {
-            score_offset = -100,
+            score_offset = 10,
           },
         },
       },
