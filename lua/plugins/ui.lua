@@ -53,7 +53,11 @@ return {
   },
   {
     "folke/snacks.nvim",
+    keys = {
+      { "<C-S>", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    },
     opts = {
+      ---@class snacks.picker.explorer.Config: snacks.picker.files.Config|{}
       dashboard = {
         preset = {
           header = [[
