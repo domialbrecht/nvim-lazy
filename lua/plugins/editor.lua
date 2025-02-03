@@ -16,8 +16,6 @@ return {
         end,
         desc = "Open yazi in CWD",
       },
-      { "<leader>e", "<leader>fe", desc = "Open yazi at the current file", remap = true },
-      { "<leader>E", "<leader>fE", desc = "Open yazi in CWD", remap = true },
       {
         -- NOTE: this requires a version of yazi that includes
         -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
@@ -32,6 +30,39 @@ return {
       open_for_directories = true,
       keymaps = {
         show_help = "<f1>",
+      },
+      integrations = {
+        grep_in_selected_files = "snacks.picker",
+        grep_in_directory = "snacks.picker",
+      },
+    },
+  },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      explorer = {},
+      picker = {
+        sources = {
+          explorer = {
+            layout = { preset = "default", preview = true },
+          },
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>e",
+        function()
+          Snacks.explorer({ cwd = LazyVim.root() })
+        end,
+        desc = "Explorer Snacks (root dir)",
+      },
+      {
+        "<leader>E",
+        function()
+          Snacks.explorer()
+        end,
+        desc = "Explorer Snacks (cwd)",
       },
     },
   },
