@@ -45,6 +45,7 @@ return {
         sources = {
           explorer = {
             layout = { preset = "default", preview = true },
+            auto_close = true,
           },
         },
       },
