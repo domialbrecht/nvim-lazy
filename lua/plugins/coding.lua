@@ -65,11 +65,34 @@ return {
     end,
   },
   {
+    "echasnovski/mini.operators",
+    version = false,
+    opts = {
+      evaluate = {
+        prefix = "",
+      },
+      exchange = {
+        prefix = "gx",
+      },
+      multiply = {
+        prefix = "",
+      },
+      replace = {
+        prefix = "gt",
+      },
+      sort = {
+        prefix = "",
+      },
+    },
+  },
+  {
     "folke/which-key.nvim",
     optional = true,
     opts = {
       spec = {
         { "<leader>\\", icon = "" },
+        { "gx", desc = "+op exchange" },
+        { "gt", desc = "+op replace" },
       },
     },
   },
