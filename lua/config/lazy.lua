@@ -41,3 +41,5 @@ require("lazy").setup({
     },
   },
 })
+
+require("util.sitepackage_jump")

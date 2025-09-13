@@ -8,7 +8,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "php" } },
+    opts = { ensure_installed = { "php", "twig" } },
   },
 
   {
@@ -28,15 +28,14 @@ return {
     },
   },
 
-  -- {
-  --   "williamboman/mason.nvim",
-  --   opts = {
-  --     ensure_installed = {
-  --       "phpcs",
-  --       "php-cs-fixer",
-  --     },
-  --   },
-  -- },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "djlint",
+      },
+    },
+  },
   -- {
   --   "mfussenegger/nvim-dap",
   --   optional = true,
@@ -75,6 +74,7 @@ return {
     opts = {
       formatters_by_ft = {
         php = { "php_cs_fixer" },
+        twig = { "djlint" },
       },
     },
   },

@@ -17,6 +17,7 @@ return {
         highlights.BlinkCmpMenuBorder = { fg = colors.yellow }
         highlights.BlinkCmpScrollBarThumb = { fg = colors.yellow, bg = colors.yellow }
         highlights.LspKindSnippet = { fg = colors.magenta }
+        highlights.SnacksIndentChunk = { fg = colors.yellow }
       end,
     },
   },
@@ -74,6 +75,9 @@ return {
           { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
         },
+      },
+      statuscolumn = {
+        enabled = false,
       },
       indent = {
         chunk = { enabled = true },

@@ -17,6 +17,16 @@ end
 return {
   { "fei6409/log-highlight.nvim", event = "BufRead *.log", opts = {} },
   {
+    "jcha0713/classy.nvim",
+    keys = {
+      {
+        "gac",
+        "<cmd>ClassyAddClass<cr>",
+        desc = "Add Classy",
+      },
+    },
+  },
+  {
     "zbirenbaum/copilot.lua",
     optional = true,
     opts = {
@@ -93,6 +103,7 @@ return {
         { "<leader>\\", icon = "" },
         { "gx", desc = "+op exchange" },
         { "gt", desc = "+op replace" },
+        { "ga", desc = "+op add" },
       },
     },
   },
