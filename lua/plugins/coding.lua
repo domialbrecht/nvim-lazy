@@ -75,7 +75,21 @@ return {
     end,
   },
   {
-    "echasnovski/mini.operators",
+    "neovim/nvim-lspconfig",
+    opts = {
+      ---@type table<string, vim.lsp.Config>
+      servers = {
+        eslint = {
+          settings = {
+            workingDirectories = { mode = "auto" },
+            experimental = { useFlatConfig = true },
+          },
+        },
+      },
+    },
+  },
+  {
+    "nvim-mini/mini.operators",
     version = false,
     opts = {
       evaluate = {

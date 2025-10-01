@@ -1,20 +1,27 @@
 -- ===== sitepackage jump (drop-in) =====
--- Jumps from <prefix:kind.name> to <site_root>/Resources/Private/Components/<Kind>/<Name>/<Name>.<ext>
+-- Jumps from <prefix:kind.name> or <prefix:kind.sub.name> to:
+-- <site_root>/Resources/Private/Components/<Kind>/<Seg1>/.../<SegN>/<SegN>.<ext>
 -- - prefix (e.g. mybvk, sow) is ignored
 -- - site_root is the nearest directory upward containing composer.json
--- - kind maps to a subfolder (Atom/Molecule/Organism by default)
--- - extension can be global or per kind
+-- - <Kind> is derived from the tag kind via PascalCase (no hardcoded map)
+-- - extension can be global or per (lowercased) kind
+-- - supports arbitrary nesting via dots in the name (button.link.item)
 
+-- =========================
 -- config
+-- =========================
 local sitepackage = {
-  components_map = { atom = "Atom", molecule = "Molecule", organism = "Organism" },
   ext = ".html", -- default extension
-  ext_by_kind = nil, -- e.g. { icon = ".svg" }
+  ext_by_kind = nil, -- e.g. { atom = ".html", icon = ".svg" }
   echo_attempt = true,
   create_missing = false, -- set true to auto-create missing files/folders
   -- limit keymaps to certain filetypes? set to nil for global
-  keymap_filetypes = { "html" }, -- e.g. { "html", "xml" }
+  keymap_filetypes = { "html" }, -- e.g. { "html", "xml", "php", "typoscript" }
 }
+
+-- =========================
+-- utils
+-- =========================
 
 -- find project root (composer.json)
 local function sitepackage_find_root(bufpath)
@@ -37,7 +44,28 @@ local function sitepackage_to_pascal(s)
   return table.concat(out, "")
 end
 
--- Find tags like "<prefix:kind.name>" (prefix ignored, colon required).
+-- Split "button.link" -> { "button", "link" }
+local function sitepackage_split_name(name_raw)
+  local parts = {}
+  for part in (name_raw or ""):gmatch("[^%.]+") do
+    table.insert(parts, part)
+  end
+  return parts
+end
+
+-- resolve extension (per top-level kind or default)
+local function sitepackage_ext_for(kind_lc)
+  if sitepackage.ext_by_kind and sitepackage.ext_by_kind[kind_lc] then
+    return sitepackage.ext_by_kind[kind_lc]
+  end
+  return sitepackage.ext
+end
+
+-- =========================
+-- extraction
+-- =========================
+
+-- Find tags like "<prefix:kind.name>" or "<prefix:kind.sub.name>" (prefix ignored, colon required).
 -- Prefers the match that spans the cursor; falls back to the nearest previous match.
 local function sitepackage_extract()
   local row, col0 = unpack(vim.api.nvim_win_get_cursor(0))
@@ -47,8 +75,8 @@ local function sitepackage_extract()
   local best = nil
   local i = 1
   while true do
-    -- captures: prefix (ignored), kind, name
-    local s, e, _prefix, kind, name = line:find("([%w_%-]+):([%w_%-]+)%.([%w_%-]+)", i)
+    -- captures: prefix (ignored), kind, name (can contain dots)
+    local s, e, _prefix, kind, name = line:find("([%w_%-]+):([%w_%-]+)%.([%w_%-%.]+)", i)
     if not s then
       break
     end
@@ -63,9 +91,9 @@ local function sitepackage_extract()
     return best.kind, best.name
   end
 
-  -- fallback: word under cursor
+  -- fallback: word under cursor (allow multiple dots)
   local word = vim.fn.expand("<cword>")
-  local _p, k, n = word:match("^([%w_%-]+):([%w_%-]+)%.([%w_%-]+)$")
+  local _p, k, n = word:match("^([%w_%-]+):([%w_%-]+)%.([%w_%-%.]+)$")
   if k and n then
     return k, n
   end
@@ -73,16 +101,12 @@ local function sitepackage_extract()
   return nil, nil
 end
 
--- resolve extension (per kind or default)
-local function sitepackage_ext_for(kind_lc)
-  if sitepackage.ext_by_kind and sitepackage.ext_by_kind[kind_lc] then
-    return sitepackage.ext_by_kind[kind_lc]
-  end
-  return sitepackage.ext
-end
+-- =========================
+-- path building
+-- =========================
 
 -- Build path relative to nearest site-package composer.json:
--- <site_root>/Resources/Private/Components/<Kind>/<Name>/<Name>.<ext>
+-- <site_root>/Resources/Private/Components/<Kind>/<Seg1>/.../<SegN>/<SegN>.<ext>
 local function sitepackage_build_path(kind_raw, name_raw, bufpath)
   local root = sitepackage_find_root(bufpath)
   if not root then
@@ -92,24 +116,31 @@ local function sitepackage_build_path(kind_raw, name_raw, bufpath)
   local components_base = root .. "/Resources/Private/Components"
 
   local kind_lc = (kind_raw or ""):lower()
-  local comp_dir = sitepackage.components_map[kind_lc]
-  if not comp_dir then
-    return nil, "Unknown component kind: " .. tostring(kind_raw)
+  local kind_dir = sitepackage_to_pascal(kind_raw or "")
+  if kind_dir == "" then
+    return nil, "Empty component kind"
   end
 
-  local pascal = sitepackage_to_pascal(name_raw or "")
-  if pascal == "" then
+  local name_parts_raw = sitepackage_split_name(name_raw)
+  if #name_parts_raw == 0 then
     return nil, "Empty component name"
+  end
+
+  -- PascalCase each segment
+  local name_parts = {}
+  for _, p in ipairs(name_parts_raw) do
+    table.insert(name_parts, sitepackage_to_pascal(p))
   end
 
   local ext = sitepackage_ext_for(kind_lc)
 
-  local file = table.concat({
-    components_base,
-    comp_dir,
-    pascal,
-    pascal .. ext,
-  }, "/")
+  -- directories: <Components>/<Kind>/<Seg1>/.../<SegN>
+  -- file: <SegN><ext>
+  local path_parts = { components_base, kind_dir }
+  vim.list_extend(path_parts, name_parts)
+
+  local dir_path = table.concat(path_parts, "/")
+  local file = dir_path .. "/" .. name_parts[#name_parts] .. ext
 
   return file, nil
 end
@@ -126,7 +157,11 @@ local function sitepackage_ensure_dirs(file)
   vim.fn.mkdir(dir, "p")
 end
 
--- main: jump (and optionally create)
+-- =========================
+-- main cmds
+-- =========================
+
+-- jump (and optionally create)
 function _G.SitePackageJump()
   local kind, name = sitepackage_extract()
   if not kind or not name then
@@ -152,7 +187,7 @@ function _G.SitePackageJump()
       if f then
         f:write("")
         f:close()
-      end -- or write a scaffold
+      end -- or write a scaffold here if you like
     end
     vim.cmd.edit(vim.fn.fnameescape(target))
   else
@@ -163,7 +198,7 @@ function _G.SitePackageJump()
   end
 end
 
--- helper: echo resolved path
+-- echo resolved path
 function _G.SitePackageEcho()
   local kind, name = sitepackage_extract()
   if not kind or not name then
@@ -179,11 +214,12 @@ function _G.SitePackageEcho()
   end
 end
 
--- commands
+-- =========================
+-- wiring (commands + keymaps)
+-- =========================
 vim.api.nvim_create_user_command("SitePackageJump", SitePackageJump, {})
 vim.api.nvim_create_user_command("SitePackageEcho", SitePackageEcho, {})
 
--- keymaps (global by default; set sitepackage.keymap_filetypes to limit)
 local function sitepackage_set_keymaps(buflocal)
   local opts = { desc = "Jump to site package component file" }
   local opts_echo = { desc = "Echo site package component path" }
