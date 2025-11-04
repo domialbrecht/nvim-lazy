@@ -100,8 +100,7 @@ return {
     cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     config = true,
     keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
-      { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "DiffView current File" },
+      { "<leader>gF", "<cmd>DiffviewFileHistory %<cr>", desc = "DiffView current File" },
     },
   },
   {
