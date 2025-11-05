@@ -12,12 +12,25 @@ return {
         floats = "transparent",
       },
       ---@param highlights tokyonight.Highlights
-      on_highlights = function(highlights, colors)
-        highlights.SnacksDashboardKey = { fg = colors.yellow }
-        highlights.BlinkCmpMenuBorder = { fg = colors.yellow }
-        highlights.BlinkCmpScrollBarThumb = { fg = colors.yellow, bg = colors.yellow }
-        highlights.LspKindSnippet = { fg = colors.magenta }
-        highlights.SnacksIndentChunk = { fg = colors.yellow }
+      on_highlights = function(hl, colors)
+        hl.SnacksDashboardKey = { fg = colors.yellow }
+        hl.BlinkCmpMenuBorder = { fg = colors.yellow }
+        hl.BlinkCmpScrollBarThumb = { fg = colors.yellow, bg = colors.yellow }
+        hl.LspKindSnippet = { fg = colors.magenta }
+        hl.SnacksIndentChunk = { fg = colors.yellow }
+
+        -- Increase comment like colors in brightness
+        local commentColor = colors.comment
+        hl.LineNrAbove = {
+          fg = commentColor,
+        }
+        hl.LineNrBelow = {
+          fg = commentColor,
+        }
+        hl.DiagnosticUnnecessary = { fg = commentColor }
+      end,
+      on_colors = function(colors)
+        colors.comment = "#A3A9F2"
       end,
     },
   },
